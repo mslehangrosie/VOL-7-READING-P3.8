@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ms Lê Hằng English - IELTS Reading Mock Test</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <style>
+    :root {
+      --primary: #FF85A1;
+      --primary-hover: #FF6B8B;
+      --secondary: #FDCB6E;
+      --accent: #00C9A7;
+      --bg-gradient: linear-gradient(-45deg, #FF9A9E, #FECFEF, #A1C4FD, #C2E9FB);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --text-dark: #2D3436;
+      --correct: #00D26A;
+      --wrong: #FF4757;
+      --highlight: #B388FF;
+      --border-radius: 18px;
+      --shadow-3d: 0 8px 0 rgba(0, 0, 0, 0.12), 0 15px 25px rgba(0, 0, 0, 0.08);
+      --shadow-btn: 0 5px 0 #D86A82;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito', sans-serif;
+      user-select: text;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: var(--text-dark);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Floating SVG pattern overlay */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 100 100'%3E%3Ctext x='10' y='30' font-size='22'%3E🏜️%3C/text%3E%3Ctext x='60' y='70' font-size='22'%3E🌵%3C/text%3E%3Ctext x='20' y='85' font-size='18'%3E✨%3C/text%3E%3Ctext x='70' y='25' font-size='18'%3E🌟%3C/text%3E%3C/svg%3E");
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* HEADER / TOP CONTROL BAR */
+    header {
+      position: relative;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid var(--primary);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .brand-title {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-title h1 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #8854C0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .brand-title span {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #D86A82;
+      background: #FFE0E6;
+      padding: 2px 8px;
+      border-radius: 10px;
+      width: fit-content;
+    }
+
+    .timer-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #FFF;
+      padding: 6px 16px;
+      border-radius: 30px;
+      border: 2px solid var(--primary);
+      box-shadow: 0 4px 0 #FFB8C6;
+    }
+
+    .timer-display {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: #D86A82;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .btn-timer {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 3px 0 #D86A82;
+      transition: all 0.2s;
+    }
+    .btn-timer:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 0 #D86A82;
+    }
+    .btn-timer:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #D86A82;
+    }
+
+    .progress-bar-container {
+      width: 200px;
+      background: #E0E0E0;
+      height: 14px;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid #FFF;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00C9A7, #00D26A);
+      transition: width 0.3s ease;
+    }
+    .progress-text {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.65rem;
+      font-weight: 900;
+      color: #333;
+    }
+
+    /* MAIN SPLIT-SCREEN CONTAINER */
+    .main-container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 65px);
+      padding: 15px;
+      gap: 15px;
+      overflow: hidden;
+    }
+
+    .split-pane {
+      flex: 1;
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-3d);
+      overflow-y: auto;
+      padding: 25px;
+      border: 3px solid #FFF;
+      scroll-behavior: smooth;
+    }
+
+    /* LEFT PANE: READING PASSAGE */
+    .reading-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .passage-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #8854C0;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    .passage-subtitle {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #555;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .para-block {
+      background: #FFF;
+      padding: 16px;
+      border-radius: 14px;
+      border-left: 5px solid var(--primary);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+      position: relative;
+      transition: background 0.3s;
+    }
+    .para-block.highlight-target {
+      animation: pulseHighlight 2s infinite;
+      border: 2px solid var(--accent);
+    }
+    @keyframes pulseHighlight {
+      0% { box-shadow: 0 0 0 0 rgba(0, 201, 167, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(0, 201, 167, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 201, 167, 0); }
+    }
+
+    .para-num {
+      font-weight: 900;
+      color: #8854C0;
+      margin-right: 5px;
+    }
+
+    .btn-translation {
+      margin-top: 10px;
+      background: #FFF3F5;
+      color: #D86A82;
+      border: 1.5px dashed var(--primary);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-translation:hover {
+      background: var(--primary);
+      color: #FFF;
+    }
+
+    .translation-text {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background: #F8F9FA;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: #444;
+      line-height: 1.5;
+      border-left: 3px solid #FDCB6E;
+    }
+
+    /* GLOSSARY TABLE */
+    .glossary-section {
+      margin-top: 30px;
+      background: #FFF;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: 2px solid #FDCB6E;
+    }
+    .glossary-title {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: #D63031;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .glossary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .glossary-table th {
+      background: #FFEAA7;
+      color: #D63031;
+      text-align: left;
+      padding: 8px;
+      font-weight: 800;
+    }
+    .glossary-table td {
+      padding: 8px;
+      border-bottom: 1px solid #FFEAA7;
+    }
+
+    /* RIGHT PANE: EXERCISES */
+    .exercises-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .section-card {
+      background: #FFF;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      border: 2px solid #E2E8F0;
+    }
+    .section-card-title {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #8854C0;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 2px dashed #E2E8F0;
+    }
+
+    .question-item {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #F0F0F0;
+    }
+    .question-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .q-text {
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    /* SELECT / DROPDOWN CUSTOM */
+    .custom-select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 2px solid #CBD5E1;
+      background: #F8FAFC;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #334155;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .custom-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255, 133, 161, 0.3);
+    }
+
+    /* MULTIPLE CHOICE OPTIONS */
+    .mc-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mc-option {
+      background: #F8FAFC;
+      border: 2px solid #E2E8F0;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 3px 0 #E2E8F0;
+    }
+    .mc-option:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      box-shadow: 0 5px 0 var(--primary);
+    }
+    .mc-option.correct {
+      background: #D1FAE5 !important;
+      border-color: var(--correct) !important;
+      color: #065F46 !important;
+      box-shadow: 0 4px 0 #059669 !important;
+    }
+    .mc-option.wrong {
+      background: #FEE2E2 !important;
+      border-color: var(--wrong) !important;
+      color: #991B1B !important;
+      box-shadow: 0 4px 0 #DC2626 !important;
+      animation: shake 0.4s ease;
+    }
+
+    /* FILL IN THE BLANK */
+    .blank-input-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .blank-input {
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 2px solid #CBD5E1;
+      font-weight: 700;
+      font-size: 0.9rem;
+      outline: none;
+      width: 200px;
+    }
+    .btn-check {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 3px 0 #00A387;
+    }
+    .btn-check:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 0 #00A387;
+    }
+
+    /* EXPLANATION BOX */
+    .explanation-box {
+      display: none;
+      margin-top: 12px;
+      background: #EFF6FF;
+      border: 2px solid #93C5FD;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 0.85rem;
+    }
+    .exp-title {
+      font-weight: 900;
+      color: #1E40AF;
+      margin-bottom: 5px;
+    }
+    .exp-quote {
+      background: #FFF;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border-left: 3px solid #3B82F6;
+      margin: 5px 0;
+      font-style: italic;
+    }
+    .exp-synonyms {
+      margin-top: 5px;
+      font-weight: 700;
+      color: #D97706;
+    }
+
+    /* LOCATE BUTTON */
+    .btn-locate {
+      background: #E0E7FF;
+      color: #4338CA;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .btn-locate:hover {
+      background: #C7D2FE;
+    }
+
+    /* SUBMIT BUTTON & MODAL */
+    .btn-submit-main {
+      background: linear-gradient(135deg, #00D26A, #00C9A7);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 16px;
+      font-size: 1.1rem;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #00A387;
+      transition: all 0.2s;
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .btn-submit-main:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 9px 0 #00A387;
+    }
+
+    /* RESULT MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+    .modal-card {
+      background: #FFF;
+      border-radius: 24px;
+      padding: 30px;
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      border: 4px solid var(--primary);
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .score-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #FFE0E6;
+      border: 4px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #D86A82;
+      margin: 15px auto;
+    }
+
+    /* SHAKE ANIMATION */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    /* HIGHLIGHT PASTEL PURPLE */
+    ::selection {
+      background: var(--highlight);
+      color: #FFF;
+    }
+    .user-highlight {
+      background-color: var(--highlight) !important;
+      color: #FFF !important;
+      border-radius: 3px;
+      padding: 0 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP CONTROL BAR -->
+  <header>
+    <div class="brand-title">
+      <h1>Ms Lê Hằng English</h1>
+      <span>IELTS READING MOCK TEST</span>
+    </div>
+
+    <div class="timer-container">
+      <span>⏱️</span>
+      <div class="timer-display" id="timer">20:00</div>
+      <button class="btn-timer" id="btn-timer-control" onclick="toggleTimer()">BẮT ĐẦU TÍNH GIỜ LÀM BÀI</button>
+    </div>
+
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progress-bar"></div>
+      <div class="progress-text" id="progress-text">0 / 14 ĐÃ LÀM</div>
+    </div>
+  </header>
+
+  <!-- MAIN SPLIT SCREEN -->
+  <div class="main-container">
+    
+    <!-- LEFT PANE: READING PASSAGE -->
+    <div class="split-pane reading-pane" id="reading-pane">
+      <div>
+        <h2 class="passage-title">Living dunes</h2>
+        <p class="passage-subtitle">Things don't come much stranger than heaps of sand that can move and sing of their own accord.<br><em>Sally Palmer investigates</em></p>
+      </div>
+
+      <div class="para-block" id="para-27">
+        <p><span class="para-num">27.</span> Armies of giant sand dunes are advancing across the world's deserts, engulfing anything that crosses their path. They are tens of metres tall and hundreds of metres long. Fortunately, they aren't going very fast. Even the smallest, speediest dunes only travel about 100 metres over the course of a year, while the bigger ones, which weigh something in the order of 10,000 tonnes, barely move one metre in that time. However, their insidious creep can have serious consequences if there is an oil installation or a railway line in their path.</p>
+        <button class="btn-translation" onclick="toggleTranslation('trans-27')">🌟 BẢN DỊCH ĐẦY ĐỦ</button>
+        <div class="translation-text" id="trans-27">Những đạo quân cồn cát khổng lồ đang tiến quân qua các hoang mạc trên thế giới, nhấn chìm bất cứ thứ gì cản đường chúng. Chúng cao hàng chục mét và dài hàng trăm mét. May mắn thay, chúng chuyển động không nhanh lắm. Ngay cả những cồn cát nhỏ nhất, di chuyển nhanh nhất cũng chỉ đi được khoảng 100 mét trong một năm, trong khi những cồn cát lớn hơn, nặng khoảng 10.000 tấn, hầu như chỉ di chuyển được một mét trong thời gian đó. Tuy nhiên, sự dịch chuyển âm thầm của chúng có thể gây ra hậu quả nghiêm trọng nếu có một công trình dầu khí hoặc tuyến đường sắt nằm trên con đường di chuyển của chúng.</div>
+      </div>
+
+      <div class="para-block" id="para-28">
+        <p><span class="para-num">28.</span> About 47% of the world's land mass, including Antarctica, most of Australia and large areas of Africa, is classified as arid or semi-arid desert. Only around 20% of that is sand-covered, however, and over half of that is classified as 'linear' sand dunes. These form in a long curving wave, as a result of wind blowing strongly from several quarters, flipping them from side to side. Although linear dunes are static, sand blowing off them can cause problems for desert villages, burying crops and buildings.</p>
+        <button class="btn-translation" onclick="toggleTranslation('trans-28')">🌟 BẢN DỊCH ĐẦY ĐỦ</button>
+        <div class="translation-text" id="trans-28">Khoảng 47% diện tích đất liền trên thế giới, bao gồm Nam Cực, phần lớn nước Úc và các khu vực rộng lớn ở châu Phi, được xếp vào loại hoang mạc khô hạn hoặc bán khô hạn. Tuy nhiên, chỉ khoảng 20% diện tích đó được bao phủ bởi cát, và hơn một nửa trong số đó được xếp vào loại cồn cát 'tuyến tính' (dạng đường thẳng/sóng). Những cồn cát này hình thành thành một dải sóng uốn lượn dài, do gió thổi mạnh từ nhiều hướng, lật chúng từ bên này sang bên kia. Mặc dù các cồn cát tuyến tính là cố định (không di chuyển cả khối), cát thổi ra từ chúng có thể gây rắc rối cho các ngôi làng ở hoang mạc, vùi lấp hoa màu và nhà cửa.</div>
+      </div>
+
+      <div class="para-block" id="para-29">
+        <p><span class="para-num">29.</span> Moving dunes make up just a small percentage of the rest, but they are of the most interest to scientists. They are known as 'barchans': heavy, crescent-shaped sand piles with a ridged crest and two elongated arms, one curving away to either side. 'Barchan dunes only tend to form where you have one-directional winds on the edge of sandy deserts near coastal areas,' says Giles Wiggs, a geomorphologist at Oxford University, who has been studying the formation and movement of sand dunes for more than a decade.</p>
+        <button class="btn-translation" onclick="toggleTranslation('trans-29')">🌟 BẢN DỊCH ĐẦY ĐỦ</button>
+        <div class="translation-text" id="trans-29">Các cồn cát di động chỉ chiếm một tỷ lệ nhỏ trong phần còn lại, nhưng chúng lại là đối tượng được các nhà khoa học quan tâm nhất. Chúng được gọi là 'barchans' (cồn cát lưỡi liềm): những đống cát nặng có hình lưỡi liềm với một đỉnh có gờ và hai cánh kéo dài, uốn cong về hai bên. 'Cồn cát Barchan chỉ có xu hướng hình thành ở những nơi có gió thổi theo một hướng cố định ở rìa các hoang mạc cát gần khu vực duyên hải,' Giles Wiggs, một nhà địa hình học tại Đại học Oxford, người đã nghiên cứu sự hình thành và di chuyển của các cồn cát trong hơn một thập kỷ, cho biết.</div>
+      </div>
+
+      <div class="para-block" id="para-30">
+        <p><span class="para-num">30.</span> But even with strong winds, how can entire barchans move while retaining their form? That question was first answered in the mid-20th century by British explorer Ralph Alger Bagnold, and his answer hinges on the fact that dunes aren't solid, but granular. Bagnold figured out how barchan dunes are able to move grain by grain. Imagine a single grain of sand being blown up the back of a dune by the wind and deposited on the top. More grains follow the same pattern, until the accumulated weight of piled-up sand finally pushes the top down the dune face. The grain tumbles, then stops on the face until subsequent mini-avalanches bury it. Eventually, it reappears at the back of the dune, ready to repeat the process. As this happens to every grain of sand in the dune, the whole thing creeps in the direction of the prevailing wind.</p>
+        <button class="btn-translation" onclick="toggleTranslation('trans-30')">🌟 BẢN DỊCH ĐẦY ĐỦ</button>
+        <div class="translation-text" id="trans-30">Nhưng ngay cả khi có gió mạnh, làm thế nào mà toàn bộ cồn cát barchan có thể di chuyển trong khi vẫn giữ nguyên hình dạng của chúng? Cung câu hỏi đó lần đầu tiên được trả lời vào giữa thế kỷ 20 bởi nhà thám hiểm người Anh Ralph Alger Bagnold, và câu trả lời của ông dựa vào thực tế rằng các cồn cát không phải là một khối rắn chắc mà là dạng hạt. Bagnold đã tìm ra cách các cồn cát barchan có thể di chuyển từng hạt một. Hãy tưởng tượng một hạt cát đơn lẻ bị gió thổi lên mặt sau của cồn cát và lắng đọng trên đỉnh. Nhiều hạt cát khác cũng làm theo quy luật tương tự, cho đến khi trọng lượng tích tụ của cát chất đống cuối cùng đẩy phần đỉnh xuống mặt trước cồn cát. Hạt cát nhô lăn xuống, sau đó dừng lại trên mặt cồn cát cho đến khi các đợt lở cát nhỏ tiếp theo vùi lấp nó. Cuối cùng, nó xuất hiện trở lại ở mặt sau của cồn cát, sẵn sàng lặp lại quá trình này. Khi điều này xảy ra với từng hạt cát trong cồn cát, toàn bộ khối cát sẽ nhích dần theo hướng gió chủ đạo.</div>
+      </div>
+
+      <div class="para-block" id="para-31">
+        <p><span class="para-num">31.</span> The relationship between the wind and barchan dunes is complex. As a dune grows, it modifies the speed and course of the wind, which in turn alters how that dune and its neighbours evolve. 'Interestingly, the dune can regulate its own shape, and maintain it as it moves,' says Dr Stéphane Douady, a physicist at Ecole Normale Supérieure (ENS) in France. 'Even when two dunes collide, they quickly take on their distinctive shapes again. It's like a living organism.'</p>
+        <button class="btn-translation" onclick="toggleTranslation('trans-31')">🌟 BẢN DỊCH ĐẦY ĐỦ</button>
+        <div class="translation-text" id="trans-31">Mối quan hệ giữa gió và các cồn cát barchan rất phức tạp. Khi cồn cát lớn lên, nó làm thay đổi tốc độ và hướng đi của gió, điều này đến lượt nó làm thay đổi cách cồn cát đó và các cồn cát lân cận phát triển. 'Điều thú vị là cồn cát có thể tự điều chỉnh hình dạng của nó và duy trì hình dạng đó khi di chuyển,' Tiến sĩ Stéphane Douady, nhà vật lý tại École Normale Supérieure (ENS) ở Pháp, cho biết. 'Ngay cả khi hai cồn cát va chạm vào nhau, chúng nhanh chóng lấy lại hình dạng đặc trưng ban đầu. Nó giống như một sinh vật sống vậy.'</div>
+      </div>
+
+      <div class="para-block" id="para-32">
+        <p><span class="para-num">32.</span> Douady and his colleagues have also been studying an even odder phenomenon than moving dunes: some barchans actually sing. Local legends attributed the sounds to dangerous spirits which were trying to trap unwary travellers. Douady is more pragmatic. 'It's a strong booming noise with a low frequency,' he explains, making a noise like a foghorn to demonstrate. 'It can last for a long time - up to several minutes. It's a very loud sound and you don't understand where it's coming from when you first hear it.' There are about 50 dunes distributed across 35 deserts round the world that are known to sing. Douady says the sound is caused by the way sand avalanches down the faces of particular dunes. Rather than tumbling randomly, the sand grains flow in synchrony and set each other vibrating like the membrane on a gigantic loudspeaker. The synchronisation causes the air to move in and out between the grains, creating a powerful sound wave.</p>
+        <button class="btn-translation" onclick="toggleTranslation('trans-32')">🌟 BẢN DỊCH ĐẦY ĐỦ</button>
+        <div class="translation-text" id="trans-32">Douady và các đồng nghiệp của ông cũng đã nghiên cứu một hiện tượng thậm chí còn kỳ lạ hơn cồn cát di chuyển: một số cồn cát barchan thực sự biết 'hát'. Truyền thuyết địa phương cho rằng âm thanh đó là do các linh hồn nguy hiểm đang cố gắng bẫy những du khách không cảnh giác. Douady thì thực tế hơn. 'Đó là một tiếng gầm vang mạnh mẽ với tần số thấp,' ông giải thích, tạo ra âm thanh như còi sương mù để minh họa. 'Nó có thể kéo dài trong một thời gian dài - lên đến vài phút. Đó là một âm thanh rất lớn và bạn không hiểu nó phát ra từ đâu khi mới nghe lần đầu.' Có khoảng 50 cồn cát phân bố trên 35 hoang mạc trên khắp thế giới được biết đến là có khả năng hát. Douady nói rằng âm thanh được tạo ra bởi cách cát lở xuống mặt trước của một số cồn cát nhất định. Thay vì lăn ngẫu nhiên, các hạt cát chảy đồng bộ và làm cho nhau rung lên giống như màng của một chiếc loa khổng lồ. Sự đồng bộ này khiến không khí di chuyển ra vào giữa các hạt cát, tạo ra một sóng âm thanh mạnh mẽ.</div>
+      </div>
+
+      <div class="para-block" id="para-33">
+        <p><span class="para-num">33.</span> What really surprised the scientists, however, was that they were able to take samples of the singing sand back to France and replicate the sound at ENS, proving that it's the sand, not the dune shape, that causes the sound. Their studies show the grains are a uniform shape, well-rounded from years of striking each other, and that the variations in size affect the tone. Crucially, the grains are coated with a special veneer, which Douady calls 'desert glaze', made from a precise combination of minerals from surrounding rocks including iron, aluminium, manganese, silicon and calcium. The team found that after a month or so, the veneer wore off and the grains lost their 'voice'. 'We managed to reproduce the desert glaze and then the grains started to sing again,' says Douady. 'We tried putting the coating onto different grains, but they weren't round enough and it didn't work. But some American colleagues made some artificial grains and managed to make them sing, after covering them in desert glaze.' Douady has now made recordings of dunesong from all over the world which are to be made into a CD.</p>
+        <button class="btn-translation" onclick="toggleTranslation('trans-33')">🌟 BẢN DỊCH ĐẦY ĐỦ</button>
+        <div class="translation-text" id="trans-33">Tuy nhiên, điều thực sự làm các nhà khoa học ngạc nhiên là họ có thể mang các mẫu cát biết hát về Pháp và tái tạo lại âm thanh tại ENS, chứng minh rằng chính cát, chứ không phải hình dáng cồn cát, là nguyên nhân gây ra âm thanh. Các nghiên cứu của họ cho thấy các hạt cát có hình dạng đồng đều, tròn trịa do nhiều năm va đập vào nhau, và sự thay đổi về kích thước sẽ ảnh hưởng đến âm điệu. Điều quan trọng là các hạt cát được bao phủ bởi một lớp men đặc biệt mà Douady gọi là 'lớp men hoang mạc', được tạo thành từ sự kết hợp chính xác của các khoáng chất từ các tảng đá xung quanh bao gồm sắt, nhôm, mangan, silicon và canxi. Nhóm nghiên cứu phát hiện ra rằng sau khoảng một tháng, lớp men bị mài mòn và các hạt cát mất đi 'giọng hát'. 'Chúng tôi đã tái tạo được lớp men hoang mạc và sau đó các hạt cát bắt đầu hát trở lại,' Douady nói. 'Chúng tôi đã thử phủ lớp men lên các hạt cát khác nhau, nhưng chúng không đủ tròn và không thành công. Nhưng một số đồng nghiệp người Mỹ đã tạo ra một số hạt nhân tạo và làm cho chúng hát được, sau khi phủ lên chúng lớp men hoang mạc.' Douady hiện đã thực hiện các bản ghi âm tiếng hát của cồn cát từ khắp nơi trên thế giới để làm thành một đĩa CD.</div>
+      </div>
+
+      <!-- GLOSSARY SECTION -->
+      <div class="glossary-section">
+        <div class="glossary-title">📚 GLOSSARY (BẢNG TỪ VỰNG ACADEMIC B2-C2)</div>
+        <table class="glossary-table">
+          <thead>
+            <tr>
+              <th>Từ vựng</th>
+              <th>Loại từ</th>
+              <th>Nghĩa tiếng Việt</th>
+              <th>Từ đồng nghĩa (Synonyms)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Advancing</td><td>v.</td><td>Tấn công, tiến lên</td><td>Moving forward, encroaching</td></tr>
+            <tr><td>Engulfing</td><td>v.</td><td>Nhấn chìm, bao phủ</td><td>Swallowing up, overwhelming</td></tr>
+            <tr><td>Insidious</td><td>adj.</td><td>Âm thầm, xảo quyệt</td><td>Subtle, gradual, stealthy</td></tr>
+            <tr><td>Creep</td><td>n.</td><td>Sự di chuyển chậm chạp</td><td>Slow movement, crawling</td></tr>
+            <tr><td>Arid</td><td>adj.</td><td>Khô hạn</td><td>Dry, parched, barren</td></tr>
+            <tr><td>Linear</td><td>adj.</td><td>Tuyến tính, đường thẳng</td><td>Straight, wave-like</td></tr>
+            <tr><td>Static</td><td>adj.</td><td>Cố định, đứng yên</td><td>Stationary, motionless</td></tr>
+            <tr><td>Crescent-shaped</td><td>adj.</td><td>Hình lưỡi liềm</td><td>Sickle-shaped, curved</td></tr>
+            <tr><td>Geomorphologist</td><td>n.</td><td>Nhà địa hình học</td><td>Landform scientist</td></tr>
+            <tr><td>Granular</td><td>adj.</td><td>Dạng hạt</td><td>Grainy, powdery</td></tr>
+            <tr><td>Accumulated</td><td>adj.</td><td>Tích tụ, dồn lại</td><td>Gathered, collected</td></tr>
+            <tr><td>Avalanches</td><td>n.</td><td>Sự lở (tuyết/cát)</td><td>Slides, falls</td></tr>
+            <tr><td>Prevailing</td><td>adj.</td><td>Chủ đạo, thịnh hành</td><td>Dominant, primary</td></tr>
+            <tr><td>Modifies</td><td>v.</td><td>Thay đổi, điều chỉnh</td><td>Alters, adjusts</td></tr>
+            <tr><td>Collide</td><td>v.</td><td>Va chạm</td><td>Crash into, hit</td></tr>
+            <tr><td>Pragmatic</td><td>adj.</td><td>Thực tế</td><td>Practical, realistic</td></tr>
+            <tr><td>Booming</td><td>adj.</td><td>Vang dội, trầm vang</td><td>Resonant, deep</td></tr>
+            <tr><td>Synchrony</td><td>n.</td><td>Sự đồng bộ</td><td>Simultaneous action, harmony</td></tr>
+            <tr><td>Vibrating</td><td>v.</td><td>Rung động</td><td>Oscillating, quivering</td></tr>
+            <tr><td>Replicate</td><td>v.</td><td>Tái tạo, sao chép</td><td>Reproduce, duplicate</td></tr>
+            <tr><td>Uniform</td><td>adj.</td><td>Đồng đều, giống nhau</td><td>Consistent, identical</td></tr>
+            <tr><td>Veneer</td><td>n.</td><td>Lớp phủ ngoài, lớp men</td><td>Coating, glaze, layer</td></tr>
+            <tr><td>Artificial</td><td>adj.</td><td>Nhân tạo</td><td>Synthetic, man-made</td></tr>
+            <tr><td>Susceptible to</td><td>adj.</td><td>Dễ bị ảnh hưởng/tổn thương</td><td>At risk from, vulnerable to</td></tr>
+            <tr><td>Dimensions</td><td>n.</td><td>Kích thước</td><td>Size, measurements</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANE: EXERCISES -->
+    <div class="split-pane exercises-pane" id="exercises-pane">
+      
+      <!-- QUESTIONS 27-33: MATCHING HEADINGS -->
+      <div class="section-card">
+        <h3 class="section-card-title">Questions 27–33: Matching Headings</h3>
+        <p style="font-size: 0.85rem; margin-bottom: 12px; color: #666;">Choose the correct heading for each paragraph from the list of headings below.</p>
+        
+        <div style="background: #F1F5F9; padding: 10px; border-radius: 10px; margin-bottom: 15px; font-size: 0.85rem;">
+          <strong>List of Headings:</strong><br>
+          i. Moving rapidly across the desert<br>
+          ii. Recreating the process in a laboratory<br>
+          iii. Strange music created by human movement<br>
+          iv. A potential threat to industry and communications<br>
+          v. Dunes coming together and re-forming<br>
+          vi. Needing a specific combination of conditions<br>
+          vii. A continuous cycle<br>
+          viii. The commonest type of dune<br>
+          ix. Old superstitions demystified
+        </div>
+
+        <!-- Q27 -->
+        <div class="question-item" id="q-block-27">
+          <div class="q-text">27. Paragraph 27</div>
+          <select class="custom-select" id="q27" onchange="checkSelect(27, 'iv')">
+            <option value="">-- Choose Heading --</option>
+            <option value="i">i. Moving rapidly across the desert</option>
+            <option value="ii">ii. Recreating the process in a laboratory</option>
+            <option value="iii">iii. Strange music created by human movement</option>
+            <option value="iv">iv. A potential threat to industry and communications</option>
+            <option value="v">v. Dunes coming together and re-forming</option>
+            <option value="vi">vi. Needing a specific combination of conditions</option>
+            <option value="vii">vii. A continuous cycle</option>
+            <option value="viii">viii. The commonest type of dune</option>
+            <option value="ix">ix. Old superstitions demystified</option>
+          </select>
+          <div class="explanation-box" id="exp-27">
+            <div class="exp-title">(1) ĐÁP ÁN: iv</div>
+            <div class="exp-title">(2) CÂU HỎI: Heading for Paragraph 27</div>
+            <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"However, their insidious creep can have serious consequences if there is an oil installation or a railway line in their path."</div>
+            <div><strong>DỊCH NGHĨA:</strong> Tuy nhiên, sự dịch chuyển âm thầm của chúng có thể gây ra hậu quả nghiêm trọng nếu có một công trình dầu khí hoặc tuyến đường sắt nằm trên con đường di chuyển của chúng.</div>
+            <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• serious consequences = potential threat<br>• oil installation or a railway line = industry and communications</div>
+            <button class="btn-locate" onclick="locateParagraph('para-27')">📍 Đến đoạn chứa dẫn chứng</button>
+          </div>
+        </div>
+
+        <!-- Q28 -->
+        <div class="question-item" id="q-block-28">
+          <div class="q-text">28. Paragraph 28</div>
+          <select class="custom-select" id="q28" onchange="checkSelect(28, 'viii')">
+            <option value="">-- Choose Heading --</option>
+            <option value="i">i. Moving rapidly across the desert</option>
+            <option value="ii">ii. Recreating the process in a laboratory</option>
+            <option value="iii">iii. Strange music created by human movement</option>
+            <option value="iv">iv. A potential threat to industry and communications</option>
+            <option value="v">v. Dunes coming together and re-forming</option>
+            <option value="vi">vi. Needing a specific combination of conditions</option>
+            <option value="vii">vii. A continuous cycle</option>
+            <option value="viii">viii. The commonest type of dune</option>
+            <option value="ix">ix. Old superstitions demystified</option>
+          </select>
+          <div class="explanation-box" id="exp-28">
+            <div class="exp-title">(1) ĐÁP ÁN: viii</div>
+            <div class="exp-title">(2) CÂU HỎI: Heading for Paragraph 28</div>
+            <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"...over half of that is classified as 'linear' sand dunes."</div>
+            <div><strong>DỊCH NGHĨA:</strong> ...hơn một nửa trong số đó được xếp vào loại cồn cát 'tuyến tính'.</div>
+            <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• over half = commonest</div>
+            <button class="btn-locate" onclick="locateParagraph('para-28')">📍 Đến đoạn chứa dẫn chứng</button>
+          </div>
+        </div>
+
+        <!-- Q29 -->
+        <div class="question-item" id="q-block-29">
+          <div class="q-text">29. Paragraph 29</div>
+          <select class="custom-select" id="q29" onchange="checkSelect(29, 'vi')">
+            <option value="">-- Choose Heading --</option>
+            <option value="i">i. Moving rapidly across the desert</option>
+            <option value="ii">ii. Recreating the process in a laboratory</option>
+            <option value="iii">iii. Strange music created by human movement</option>
+            <option value="iv">iv. A potential threat to industry and communications</option>
+            <option value="v">v. Dunes coming together and re-forming</option>
+            <option value="vi">vi. Needing a specific combination of conditions</option>
+            <option value="vii">vii. A continuous cycle</option>
+            <option value="viii">viii. The commonest type of dune</option>
+            <option value="ix">ix. Old superstitions demystified</option>
+          </select>
+          <div class="explanation-box" id="exp-29">
+            <div class="exp-title">(1) ĐÁP ÁN: vi</div>
+            <div class="exp-title">(2) CÂU HỎI: Heading for Paragraph 29</div>
+            <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"'Barchan dunes only tend to form where you have one-directional winds on the edge of sandy deserts near coastal areas...'"</div>
+            <div><strong>DỊCH NGHĨA:</strong> 'Cồn cát Barchan chỉ có xu hướng hình thành ở những nơi có gió thổi theo một hướng cố định ở rìa các hoang mạc cát gần khu vực duyên hải...'</div>
+            <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• only tend to form where... = Needing a specific combination of conditions</div>
+            <button class="btn-locate" onclick="locateParagraph('para-29')">📍 Đến đoạn chứa dẫn chứng</button>
+          </div>
+        </div>
+
+        <!-- Q30 -->
+        <div class="question-item" id="q-block-30">
+          <div class="q-text">30. Paragraph 30</div>
+          <select class="custom-select" id="q30" onchange="checkSelect(30, 'vii')">
+            <option value="">-- Choose Heading --</option>
+            <option value="i">i. Moving rapidly across the desert</option>
+            <option value="ii">ii. Recreating the process in a laboratory</option>
+            <option value="iii">iii. Strange music created by human movement</option>
+            <option value="iv">iv. A potential threat to industry and communications</option>
+            <option value="v">v. Dunes coming together and re-forming</option>
+            <option value="vi">vi. Needing a specific combination of conditions</option>
+            <option value="vii">vii. A continuous cycle</option>
+            <option value="viii">viii. The commonest type of dune</option>
+            <option value="ix">ix. Old superstitions demystified</option>
+          </select>
+          <div class="explanation-box" id="exp-30">
+            <div class="exp-title">(1) ĐÁP ÁN: vii</div>
+            <div class="exp-title">(2) CÂU HỎI: Heading for Paragraph 30</div>
+            <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"Eventually, it reappears at the back of the dune, ready to repeat the process. As this happens to every grain of sand in the dune, the whole thing creeps..."</div>
+            <div><strong>DỊCH NGHĨA:</strong> Cuối cùng, nó xuất hiện trở lại ở mặt sau của cồn cát, sẵn sàng lặp lại quá trình này. Khi điều này xảy ra với từng hạt cát...</div>
+            <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• repeat the process = continuous cycle</div>
+            <button class="btn-locate" onclick="locateParagraph('para-30')">📍 Đến đoạn chứa dẫn chứng</button>
+          </div>
+        </div>
+
+        <!-- Q31 -->
+        <div class="question-item" id="q-block-31">
+          <div class="q-text">31. Paragraph 31</div>
+          <select class="custom-select" id="q31" onchange="checkSelect(31, 'v')">
+            <option value="">-- Choose Heading --</option>
+            <option value="i">i. Moving rapidly across the desert</option>
+            <option value="ii">ii. Recreating the process in a laboratory</option>
+            <option value="iii">iii. Strange music created by human movement</option>
+            <option value="iv">iv. A potential threat to industry and communications</option>
+            <option value="v">v. Dunes coming together and re-forming</option>
+            <option value="vi">vi. Needing a specific combination of conditions</option>
+            <option value="vii">vii. A continuous cycle</option>
+            <option value="viii">viii. The commonest type of dune</option>
+            <option value="ix">ix. Old superstitions demystified</option>
+          </select>
+          <div class="explanation-box" id="exp-31">
+            <div class="exp-title">(1) ĐÁP ÁN: v</div>
+            <div class="exp-title">(2) CÂU HỎI: Heading for Paragraph 31</div>
+            <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"'Even when two dunes collide, they quickly take on their distinctive shapes again.'"</div>
+            <div><strong>DỊCH NGHĨA:</strong> 'Ngay cả khi hai cồn cát va chạm vào nhau, chúng nhanh chóng lấy lại hình dạng đặc trưng ban đầu.'</div>
+            <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• collide = coming together<br>• take on their distinctive shapes again = re-forming</div>
+            <button class="btn-locate" onclick="locateParagraph('para-31')">📍 Đến đoạn chứa dẫn chứng</button>
+          </div>
+        </div>
+
+        <!-- Q32 -->
+        <div class="question-item" id="q-block-32">
+          <div class="q-text">32. Paragraph 32</div>
+          <select class="custom-select" id="q32" onchange="checkSelect(32, 'ix')">
+            <option value="">-- Choose Heading --</option>
+            <option value="i">i. Moving rapidly across the desert</option>
+            <option value="ii">ii. Recreating the process in a laboratory</option>
+            <option value="iii">iii. Strange music created by human movement</option>
+            <option value="iv">iv. A potential threat to industry and communications</option>
+            <option value="v">v. Dunes coming together and re-forming</option>
+            <option value="vi">vi. Needing a specific combination of conditions</option>
+            <option value="vii">vii. A continuous cycle</option>
+            <option value="viii">viii. The commonest type of dune</option>
+            <option value="ix">ix. Old superstitions demystified</option>
+          </select>
+          <div class="explanation-box" id="exp-32">
+            <div class="exp-title">(1) ĐÁP ÁN: ix</div>
+            <div class="exp-title">(2) CÂU HỎI: Heading for Paragraph 32</div>
+            <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"Local legends attributed the sounds to dangerous spirits... Douady is more pragmatic. '...sound is caused by the way sand avalanches down...'"</div>
+            <div><strong>DỊCH NGHĨA:</strong> Truyền thuyết địa phương cho rằng âm thanh đó là do các linh hồn nguy hiểm... Douady thì thực tế hơn. '...âm thanh được tạo ra bởi cách cát lở...'</div>
+            <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• Local legends = Old superstitions<br>• pragmatic explanation = demystified</div>
+            <button class="btn-locate" onclick="locateParagraph('para-32')">📍 Đến đoạn chứa dẫn chứng</button>
+          </div>
+        </div>
+
+        <!-- Q33 -->
+        <div class="question-item" id="q-block-33">
+          <div class="q-text">33. Paragraph 33</div>
+          <select class="custom-select" id="q33" onchange="checkSelect(33, 'ii')">
+            <option value="">-- Choose Heading --</option>
+            <option value="i">i. Moving rapidly across the desert</option>
+            <option value="ii">ii. Recreating the process in a laboratory</option>
+            <option value="iii">iii. Strange music created by human movement</option>
+            <option value="iv">iv. A potential threat to industry and communications</option>
+            <option value="v">v. Dunes coming together and re-forming</option>
+            <option value="vi">vi. Needing a specific combination of conditions</option>
+            <option value="vii">vii. A continuous cycle</option>
+            <option value="viii">viii. The commonest type of dune</option>
+            <option value="ix">ix. Old superstitions demystified</option>
+          </select>
+          <div class="explanation-box" id="exp-33">
+            <div class="exp-title">(1) ĐÁP ÁN: ii</div>
+            <div class="exp-title">(2) CÂU HỎI: Heading for Paragraph 33</div>
+            <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"...replicate the sound at ENS, proving that it's the sand..."</div>
+            <div><strong>DỊCH NGHĨA:</strong> ...tái tạo lại âm thanh tại ENS (phòng thí nghiệm), chứng minh rằng chính cát...</div>
+            <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• replicate at ENS = Recreating in a laboratory</div>
+            <button class="btn-locate" onclick="locateParagraph('para-33')">📍 Đến đoạn chứa dẫn chứng</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- QUESTIONS 34-36: MULTIPLE CHOICE -->
+      <div class="section-card">
+        <h3 class="section-card-title">Questions 34–36: Multiple Choice</h3>
+
+        <!-- Q34 -->
+        <div class="question-item" id="q-block-34">
+          <div class="q-text">34. What are we told about linear dunes?</div>
+          <div class="mc-options" id="mc-34">
+            <!-- Shuffled dynamically -->
+          </div>
+          <div class="explanation-box" id="exp-34">
+            <div class="exp-title">(1) ĐÁP ÁN: C</div>
+            <div class="exp-title">(2) CÂU HỎI: What are we told about linear dunes?</div>
+            <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"These form in a long curving wave..."</div>
+            <div><strong>DỊCH NGHĨA:</strong> Những cồn cát này hình thành thành một dải sóng uốn lượn dài...</div>
+            <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• long curving wave = recognisable shape</div>
+            <button class="btn-locate" onclick="locateParagraph('para-28')">📍 Đến đoạn chứa dẫn chứng</button>
+          </div>
+        </div>
+
+        <!-- Q35 -->
+        <div class="question-item" id="q-block-35">
+          <div class="q-text">35. Bagnold discovered that movement in barchans was caused by</div>
+          <div class="mc-options" id="mc-35">
+            <!-- Shuffled dynamically -->
+          </div>
+          <div class="explanation-box" id="exp-35">
+            <div class="exp-title">(1) ĐÁP ÁN: B</div>
+            <div class="exp-title">(2) CÂU HỎI: Bagnold discovered that movement in barchans was caused by</div>
+            <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"...his answer hinges on the fact that dunes aren't solid, but granular. Bagnold figured out how barchan dunes are able to move grain by grain."</div>
+            <div><strong>DỊCH NGHĨA:</strong> ...câu trả lời của ông dựa vào thực tế rằng các cồn cát không phải là một khối rắn chắc mà là dạng hạt. Bagnold đã tìm ra cách các cồn cát di chuyển từng hạt một.</div>
+            <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• granular nature = particular composition</div>
+            <button class="btn-locate" onclick="locateParagraph('para-30')">📍 Đến đoạn chứa dẫn chứng</button>
+          </div>
+        </div>
+
+        <!-- Q36 -->
+        <div class="question-item" id="q-block-36">
+          <div class="q-text">36. Why does Dr Douady compare a barchan dune to a living organism?</div>
+          <div class="mc-options" id="mc-36">
+            <!-- Shuffled dynamically -->
+          </div>
+          <div class="explanation-box" id="exp-36">
+            <div class="exp-title">(1) ĐÁP ÁN: D</div>
+            <div class="exp-title">(2) CÂU HỎI: Why does Dr Douady compare a barchan dune to a living organism?</div>
+            <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"'Interestingly, the dune can regulate its own shape, and maintain it as it moves... Even when two dunes collide, they quickly take on their distinctive shapes again. It's like a living organism.'"</div>
+            <div><strong>DỊCH NGHĨA:</strong> 'Điều thú vị là cồn cát có thể tự điều chỉnh hình dạng và duy trì hình dạng đó khi di chuyển... Ngay cả khi hai cồn cát va chạm, chúng nhanh chóng lấy lại hình dạng đặc trưng. Nó giống như một sinh vật sống.'</div>
+            <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• maintain shape as it moves = outline stays the same even after a period of movement</div>
+            <button class="btn-locate" onclick="locateParagraph('para-31')">📍 Đến đoạn chứa dẫn chứng</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- QUESTIONS 37-40: SUMMARY COMPLETION -->
+      <div class="section-card">
+        <h3 class="section-card-title">Questions 37–40: Summary Completion</h3>
+        <p style="font-size: 0.85rem; margin-bottom: 12px; color: #666;">Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+
+        <div style="line-height: 2; font-size: 0.95rem;">
+          <strong>Singing dunes</strong><br>
+          Singing dunes, which belong to the type of dunes known as 
+          <span class="blank-input-group">
+            <strong>37.</strong> <input type="text" class="blank-input" id="q37_input">
+            <button class="btn-check" onclick="checkBlank(37, 'barchans')">Check</button>
+          </span>
+          , produce a very loud sound which is transmitted at a low frequency. Researchers have worked out that sand grains fall down the dune and start vibrating against other grains, forming a sound wave.<br>
+          Research proves that the individual grains have a similar 
+          <span class="blank-input-group">
+            <strong>38.</strong> <input type="text" class="blank-input" id="q38_input">
+            <button class="btn-check" onclick="checkBlank(38, 'shape')">Check</button>
+          </span>
+          , but the differences in dimensions alter the 
+          <span class="blank-input-group">
+            <strong>39.</strong> <input type="text" class="blank-input" id="q39_input">
+            <button class="btn-check" onclick="checkBlank(39, 'tone')">Check</button>
+          </span>
+          of the 'song'. Each grain is covered with a mixture of different 
+          <span class="blank-input-group">
+            <strong>40.</strong> <input type="text" class="blank-input" id="q40_input">
+            <button class="btn-check" onclick="checkBlank(40, 'minerals')">Check</button>
+          </span>
+          and this is vital to the sound production.
+        </div>
+
+        <!-- EXPLANATIONS FOR 37-40 -->
+        <div class="explanation-box" id="exp-37">
+          <div class="exp-title">(1) ĐÁP ÁN: barchans</div>
+          <div class="exp-title">(2) CÂU HỎI: Singing dunes, which belong to the type of dunes known as 37......</div>
+          <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"...some barchans actually sing."</div>
+          <div><strong>DỊCH NGHĨA:</strong> ...một số cồn cát barchan thực sự biết hát.</div>
+          <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• type of dunes known as = barchans</div>
+          <button class="btn-locate" onclick="locateParagraph('para-32')">📍 Đến đoạn chứa dẫn chứng</button>
+        </div>
+
+        <div class="explanation-box" id="exp-38">
+          <div class="exp-title">(1) ĐÁP ÁN: shape</div>
+          <div class="exp-title">(2) CÂU HỎI: Research proves that the individual grains have a similar 38......</div>
+          <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"Their studies show the grains are a uniform shape..."</div>
+          <div><strong>DỊCH NGHĨA:</strong> Các nghiên cứu cho thấy các hạt cát có hình dạng đồng đều...</div>
+          <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• uniform = similar</div>
+          <button class="btn-locate" onclick="locateParagraph('para-33')">📍 Đến đoạn chứa dẫn chứng</button>
+        </div>
+
+        <div class="explanation-box" id="exp-39">
+          <div class="exp-title">(1) ĐÁP ÁN: tone</div>
+          <div class="exp-title">(2) CÂU HỎI: ...but the differences in dimensions alter the 39...... of the 'song'.</div>
+          <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"...and that the variations in size affect the tone."</div>
+          <div><strong>DỊCH NGHĨA:</strong> ...và sự thay đổi về kích thước sẽ ảnh hưởng đến âm điệu (tone).</div>
+          <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• variations in size = differences in dimensions<br>• affect = alter</div>
+          <button class="btn-locate" onclick="locateParagraph('para-33')">📍 Đến đoạn chứa dẫn chứng</button>
+        </div>
+
+        <div class="explanation-box" id="exp-40">
+          <div class="exp-title">(1) ĐÁP ÁN: minerals</div>
+          <div class="exp-title">(2) CÂU HỎI: Each grain is covered with a mixture of different 40......</div>
+          <div class="exp-quote">(3) ĐOẠN CHỨA ĐÁP ÁN:<br>"...made from a precise combination of minerals from surrounding rocks..."</div>
+          <div><strong>DỊCH NGHĨA:</strong> ...được tạo thành từ sự kết hợp chính xác của các khoáng chất từ các tảng đá xung quanh...</div>
+          <div class="exp-synonyms">(4) TỪ ĐỒNG NGHĨA:<br>• combination = mixture</div>
+          <button class="btn-locate" onclick="locateParagraph('para-33')">📍 Đến đoạn chứa dẫn chứng</button>
+        </div>
+
+      </div>
+
+      <!-- SUBMIT MAIN BUTTON -->
+      <button class="btn-submit-main" onclick="submitTest()">🎉 NỘP BÀI KIỂM TRA</button>
+
+    </div>
+  </div>
+
+  <!-- RESULT MODAL -->
+  <div class="modal-overlay" id="result-modal">
+    <div class="modal-card">
+      <h2 style="color: #8854C0; font-weight: 900; font-size: 1.8rem;">KẾT QUẢ BÀI THI</h2>
+      <div class="score-circle" id="modal-score">0/14</div>
+      <p id="modal-feedback" style="font-weight: 800; font-size: 1.1rem; color: #333; margin-bottom: 20px;"></p>
+      <button class="btn-submit-main" onclick="closeModal()">XEM GIẢI THÍCH CHI TIẾT</button>
+    </div>
+  </div>
+
+  <!-- AUDIO SYNTHESIS FOR GAMIFICATION SOUNDS -->
+  <script>
+    // Web Audio API Sound FX
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playDing() {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+      osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.3); // C6
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.3);
+    }
+
+    function playWrongSound() {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+      osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.4);
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.4);
+    }
+
+    // STATE & LOGIC
+    let userAnswers = {};
+    const correctAnswers = {
+      27: 'iv', 28: 'viii', 29: 'vi', 30: 'vii', 31: 'v', 32: 'ix', 33: 'ii',
+      34: 'C', 35: 'B', 36: 'D',
+      37: 'barchans', 38: 'shape', 39: 'tone', 40: 'minerals'
+    };
+
+    // TIMER
+    let timeLeft = 20 * 60; // 20 mins
+    let timerInterval = null;
+    let isTimerRunning = false;
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(timeLeft / 60);
+      const secs = timeLeft % 60;
+      document.getElementById('timer').innerText = 
+        `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('btn-timer-control');
+      if (!isTimerRunning) {
+        isTimerRunning = true;
+        btn.innerText = "TẠM DỪNG";
+        btn.style.background = "#FDCB6E";
+        timerInterval = setInterval(() => {
+          if (timeLeft > 0) {
+            timeLeft--;
+            updateTimerDisplay();
+          } else {
+            clearInterval(timerInterval);
+            alert("Đã hết giờ làm bài, vui lòng nộp bài nhé!");
+            disableAllInputs();
+          }
+        }, 1000);
+      } else {
+        isTimerRunning = false;
+        clearInterval(timerInterval);
+        btn.innerText = "TIẾP TỤC";
+        btn.style.background = "var(--primary)";
+      }
+    }
+
+    function disableAllInputs() {
+      document.querySelectorAll('input, select, button.mc-option').forEach(el => el.disabled = true);
+    }
+
+    // TRANSLATION TOGGLE
+    function toggleTranslation(id) {
+      const el = document.getElementById(id);
+      if (el.style.display === "block") {
+        el.style.display = "none";
+      } else {
+        el.style.display = "block";
+      }
+    }
+
+    // PROGRESS TRACKING
+    function updateProgress() {
+      const total = 14;
+      const count = Object.keys(userAnswers).length;
+      const pct = Math.round((count / total) * 100);
+      document.getElementById('progress-bar').style.width = pct + '%';
+      document.getElementById('progress-text').innerText = `${count} / ${total} ĐÃ LÀM`;
+    }
+
+    // DROPDOWN / MATCHING HEADINGS CHECK
+    function checkSelect(qNum, correctVal) {
+      const sel = document.getElementById(`q${qNum}`);
+      const val = sel.value;
+      const expBox = document.getElementById(`exp-${qNum}`);
+      
+      if (!val) return;
+
+      userAnswers[qNum] = val;
+      updateProgress();
+
+      if (val === correctVal) {
+        sel.style.borderColor = "var(--correct)";
+        sel.style.background = "#D1FAE5";
+        playDing();
+        confetti({ particleCount: 30, spread: 60, origin: { y: 0.8 } });
+      } else {
+        sel.style.borderColor = "var(--wrong)";
+        sel.style.background = "#FEE2E2";
+        playWrongSound();
+      }
+      expBox.style.display = "block";
+    }
+
+    // MULTIPLE CHOICE SHUFFLE & RENDER
+    const mcData = [
+      {
+        id: 34,
+        correct: 'C',
+        options: [
+          { letter: 'A', text: 'They are formed by strong winds blowing from one direction.' },
+          { letter: 'B', text: 'They can move up to 100 metres in a twelve-month period.' },
+          { letter: 'C', text: 'They develop in a recognisable shape.' },
+          { letter: 'D', text: 'They make up about 20% of the world\'s deserts.' }
+        ]
+      },
+      {
+        id: 35,
+        correct: 'B',
+        options: [
+          { letter: 'A', text: 'the long straight shape of the dunes.' },
+          { letter: 'B', text: 'the particular composition of the dunes.' },
+          { letter: 'C', text: 'the exceptionally heavy nature of the sand grains.' },
+          { letter: 'D', text: 'the unusual strength of the wind in certain seasons.' }
+        ]
+      },
+      {
+        id: 36,
+        correct: 'D',
+        options: [
+          { letter: 'A', text: 'It starts small and then increases in size.' },
+          { letter: 'B', text: 'It has an effect on its immediate surroundings.' },
+          { letter: 'C', text: 'Its relations with desert organisms are quite developed.' },
+          { letter: 'D', text: 'Its outline stays the same even after a period of movement.' }
+        ]
+      }
+    ];
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function renderMC() {
+      mcData.forEach(q => {
+        const container = document.getElementById(`mc-${q.id}`);
+        const shuffled = shuffleArray([...q.options]);
+        container.innerHTML = '';
+        shuffled.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'mc-option';
+          btn.innerText = `${opt.letter}. ${opt.text}`;
+          btn.onclick = () => selectMC(q.id, opt.letter, q.correct, btn);
+          container.appendChild(btn);
+        });
+      });
+    }
+
+    function selectMC(qNum, selectedLetter, correctLetter, btnElement) {
+      const container = document.getElementById(`mc-${qNum}`);
+      const buttons = container.querySelectorAll('.mc-option');
+      const expBox = document.getElementById(`exp-${qNum}`);
+
+      buttons.forEach(b => b.disabled = true);
+
+      userAnswers[qNum] = selectedLetter;
+      updateProgress();
+
+      if (selectedLetter === correctLetter) {
+        btnElement.classList.add('correct');
+        playDing();
+        confetti({ particleCount: 40, spread: 70, origin: { y: 0.8 } });
+      } else {
+        btnElement.classList.add('wrong');
+        playWrongSound();
+        // Highlight correct
+        buttons.forEach(b => {
+          if (b.innerText.startsWith(correctLetter)) {
+            b.classList.add('correct');
+          }
+        });
+      }
+      expBox.style.display = "block";
+    }
+
+    // FILL IN BLANK CHECK
+    function checkBlank(qNum, correctVal) {
+      const input = document.getElementById(`q${qNum}_input`);
+      const val = input.value.trim().toLowerCase();
+      const expBox = document.getElementById(`exp-${qNum}`);
+
+      if (!val) return;
+
+      userAnswers[qNum] = val;
+      updateProgress();
+
+      if (val === correctVal.toLowerCase()) {
+        input.style.borderColor = "var(--correct)";
+        input.style.background = "#D1FAE5";
+        playDing();
+        confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
+      } else {
+        input.style.borderColor = "var(--wrong)";
+        input.style.background = "#FEE2E2";
+        playWrongSound();
+      }
+      expBox.style.display = "block";
+    }
+
+    // LOCATE PARAGRAPH IN READING PANE
+    function locateParagraph(paraId) {
+      const el = document.getElementById(paraId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('highlight-target');
+        setTimeout(() => el.classList.remove('highlight-target'), 2500);
+      }
+    }
+
+    // SUBMIT & SCORE
+    function submitTest() {
+      let score = 0;
+      for (let q in correctAnswers) {
+        if (userAnswers[q] && userAnswers[q].toString().toLowerCase() === correctAnswers[q].toString().toLowerCase()) {
+          score++;
+        }
+      }
+
+      document.getElementById('modal-score').innerText = `${score} / 14`;
+      
+      let feedback = "";
+      if (score === 14) feedback = "🌟 ĐỈNH CAO! Bạn đúng 100%, tuyệt đối là một Thiên tài IELTS!";
+      else if (score >= 10) feedback = "🎉 RẤT TỐT! Kỹ năng Reading của bạn cực kỳ vững vàng!";
+      else if (score >= 6) feedback = "👍 LÀM TỐT LẮM! Cố gắng luyện tập thêm một chút nữa nhé!";
+      else feedback = "💪 CỐ LÊN NHÉ! Đọc kỹ phần giải thích chi tiết bên dưới để rút kinh nghiệm nhé!";
+
+      document.getElementById('modal-feedback').innerText = feedback;
+      document.getElementById('result-modal').style.display = 'flex';
+      
+      if (score >= 10) {
+        confetti({ particleCount: 100, spread: 100, origin: { y: 0.6 } });
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('result-modal').style.display = 'none';
+    }
+
+    // AUTO HIGHLIGHT TEXT IN PASTEL PURPLE
+    document.addEventListener('mouseup', function () {
+      const selection = window.getSelection();
+      if (!selection.isCollapsed && selection.toString().trim().length > 0) {
+        const range = selection.getRangeAt(0);
+        const span = document.createElement('span');
+        span.className = 'user-highlight';
+        try {
+          range.surroundContents(span);
+        } catch (e) {
+          console.log("Highlight complex range skipped");
+        }
+      }
+    });
+
+    // INIT
+    window.onload = () => {
+      renderMC();
+      updateTimerDisplay();
+    };
+  </script>
+</body>
+</html>
